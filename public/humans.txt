@@ -1,0 +1,6 @@
+/* TEAM */
+
+Developer: Kayan Irani
+Website: https://kayanirani.github.io
+Built with: HTML, CSS, JavaScript, Vite, GSAP, ThreeJS
+

@@ -1,0 +1,26 @@
+{
+  "name": "kayanirani.github.io",
+  "version": "1.0.0",
+  "description": "The Portfolio Website for myself,Kayan",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite",
+    "build": "vite build",
+    "preview":"vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KayanIrani/kayanirani.github.io.git"
+  },
+  "author": "Kayan Irani",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KayanIrani/kayanirani.github.io/issues"
+  },
+  "homepage": "https://github.com/KayanIrani/kayanirani.github.io#readme",
+  "devDependencies": {
+    "vite": "^8.1.5"
+  }
+}
