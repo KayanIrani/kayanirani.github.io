@@ -8,8 +8,8 @@ const Desk = () => {
           <mesh>
             <boxGeometry />
             <meshStandardMaterial color={'red'}/>
-          <ambientLight intensity={1} />
           </mesh>
+          <ambientLight intensity={1} />
         </Canvas>
     </>
   )
