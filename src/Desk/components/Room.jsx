@@ -7,8 +7,14 @@ Files: room.glb [4.84MB] > C:\Users\Kayan Irani\OneDrive\Desktop\Just Coding\MyP
 import React from 'react'
 import { useGLTF } from '@react-three/drei'
 
+
+import { convertMaterialsToMeshBasicMaterial } from '../../utils/convertMaterial'
 export default function Model(props) {
   const { nodes, materials } = useGLTF('/models/room-transformed.glb')
+  // convertMaterialsToMeshBasicMaterial(materials)
+  // console.log(nodes)
+  // console.log(materials);
+  
   return (
     <group {...props} dispose={null}>
       <mesh geometry={nodes.Desk.geometry} material={materials['Material.001']} />

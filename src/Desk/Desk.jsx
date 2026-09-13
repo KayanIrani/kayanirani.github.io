@@ -1,20 +1,14 @@
-import React, { useRef } from 'react'
+import React, { Suspense, useEffect, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 
-import Room from "./components/Room.jsx"
+ import Scene from './components/Scene.jsx'
+import { CameraControls, Environment } from '@react-three/drei'
 
-import { CameraControls } from '@react-three/drei'
 
-const Scene = ({controls})=>{
-  // useFrame(()=>{
-  //   // console.log("Position:")
-  //   // console.log(controls.current.getPosition())
-  //   // console.log("Rotation")
-  //   // console.log(controls.current.camera.rotation)
-  // })
-}
 const Desk = () => {
   const controls = useRef()
+  const roomControls = useRef()
+
   return (
     <>
         <Canvas
@@ -24,13 +18,8 @@ const Desk = () => {
             }}
         >
           <CameraControls ref={controls}/>
-          {/* <mesh>
-            <boxGeometry />
-            <meshStandardMaterial color={'red'}/>
-          </mesh> */}
-          <ambientLight intensity={5} />
-          <Scene controls={controls}/>
-          <Room />
+          <Scene controls={controls} roomControls={roomControls}/>
+
         </Canvas>
     </>
   )
