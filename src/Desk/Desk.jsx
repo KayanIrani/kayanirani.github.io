@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useRef } from 'react'
+import React, { Suspense, useEffect, useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 
  import Scene from './components/Scene.jsx'
@@ -9,6 +9,7 @@ const Desk = () => {
   const controls = useRef()
   const roomControls = useRef()
 
+  const [scrollProgress,setScrollProgress] = useState(0)
   return (
     <>
         <Canvas
