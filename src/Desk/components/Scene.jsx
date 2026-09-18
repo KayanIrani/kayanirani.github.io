@@ -2,10 +2,17 @@ import { Environment } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { Suspense } from "react";
 import Room from "./Room.jsx"
-import {CatmullRomCurve3, Vector3} from "three"
+import {CatmullRomCurve3, MathUtils, Vector3} from "three"
 import DebugCurve from "./DebugCurve.jsx";
 
-const Scene = ({controls,roomControls})=>{
+const Scene = ({
+    controls,
+    camera,
+    scrollProgress,
+    setScrollProgress,
+    targetScrollProgress,
+    lerpFactor
+  })=>{
 
   const cameraCurve = new CatmullRomCurve3([
     new Vector3(-299.81,39.52,14.47),
@@ -27,8 +34,14 @@ const Scene = ({controls,roomControls})=>{
   ]);
 
     useFrame(()=>{
-    console.log("Position:")
-    console.log(controls.current.getPosition())
+      if(camera){
+        const newProgress = MathUtils.lerp(scrollProgress,targetScrollProgress.current,lerpFactor)
+        setScrollProgress(newProgress)
+        const point= cameraCurve.getPoint(newProgress)
+
+        camera.current.position.copy(point)
+      }
+      
   })
   return (
     <>
@@ -49,7 +62,7 @@ const Scene = ({controls,roomControls})=>{
         <ambientLight intensity={2} />
         {/* Useful for loading screen feature */}
         <Suspense fallback={null}>
-            <Room ref={roomControls}/>
+            <Room />
         </Suspense>
 
     </>
