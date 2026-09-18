@@ -11,15 +11,31 @@ const Desk = () => {
 
   const [scrollProgress,setScrollProgress] = useState(0);
   const targetScrollProgress = useRef(0)
-  const scrollSpeed = 0.000005
+  const scrollSpeed = 0.004
   const lerpFactor = 0.1;
+  const isSwiping = useRef(false)
 
   useEffect(()=>{
     const handleWheel = (event)=>{
       // deltaY return number greater than 0 when scrolling down and when up it's negative
-      targetScrollProgress.current += (event.deltaY*scrollSpeed)
+      targetScrollProgress.current += (Math.sign(event.deltaY) * scrollSpeed)
+    }
+    const handlePointerDown = ()=>{
+      isSwiping.current = true
+    }
+    const handlePointerUp = ()=>{
+      isSwiping.current = false
+    }
+    const handlePointerMove = (event)=>{
+      if (!isSwiping.current){
+        return
+      }
+      targetScrollProgress.current += (Math.sign(event.movementY) * scrollSpeed)
     }
     window.addEventListener("wheel",handleWheel)
+    window.addEventListener("pointerdown",handlePointerDown)
+    window.addEventListener("pointermove",handlePointerMove)
+    window.addEventListener("pointerup",handlePointerUp)
 
     // clean up function
     return ()=>{
@@ -35,9 +51,9 @@ const Desk = () => {
             ref={camera}
             makeDefault
             fov={70}
-            position={[-299.81,39.52,14.47]}  
+            position={[-294.81,39.52,14.47]}  
           />
-          <OrbitControls />
+          <OrbitControls ref={controls} camera={camera.current}/>
           <Scene 
             controls={controls} 
             camera={camera}

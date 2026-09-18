@@ -38,7 +38,6 @@ const Scene = ({
         const newProgress = MathUtils.lerp(scrollProgress,targetScrollProgress.current,lerpFactor)
         setScrollProgress(newProgress)
         const point= cameraCurve.getPoint(newProgress)
-
         camera.current.position.copy(point)
       }
       
