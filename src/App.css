@@ -5,4 +5,7 @@ html, body, #root{
   padding: 0;
   overflow: hidden;
   box-sizing: border-box;
+
+  /* Due to touch actions none the scrollable path can be controlled via scroll and touch events */
+  touch-action: none;
 }

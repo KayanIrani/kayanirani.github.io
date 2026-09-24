@@ -2,7 +2,7 @@ import { Environment } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { Suspense } from "react";
 import Room from "./Room.jsx"
-import {CatmullRomCurve3, MathUtils, Vector3} from "three"
+import {CatmullRomCurve3, Euler, log, MathUtils, Quaternion, Vector3} from "three"
 import DebugCurve from "./DebugCurve.jsx";
 
 const Scene = ({
@@ -33,10 +33,46 @@ const Scene = ({
     new Vector3(1.13,22.23,44.20),
   ]);
 
+  const rotationTargets = [
+    {progress:0,rotation: new Euler(-1.22,-1.43,-1.22)},
+    {progress:0.34,rotation: new Euler(-1.28,-1.25,-1.26)},
+    {progress:0.42,rotation: new Euler(-0.86,-0.91,-0.75)},
+    {progress:0.49,rotation: new Euler(-0.86,-0.55,-0.55)},
+    {progress:0.58,rotation: new Euler(-0.97,-0.25,-0.35)},
+    {progress:0.68,rotation: new Euler(-0.99,-0.06,-0.10)},
+    {progress:0.72,rotation: new Euler(-0.95,-0.01,-0.01)},
+    {progress:0.78,rotation: new Euler(-0.92,0.01,0.01)},
+    {progress:0.86,rotation: new Euler(-0.71,-0.001,-0.001)},
+    {progress:0.97,rotation: new Euler(-0.41,-0.01,-0.008)},
+    {progress:0.99,rotation: new Euler(-0.40,-0.008,-0.003)},
+  ]
+
+  const getLerpedRotation = (progress) =>{
+    for (let i=0; i<rotationTargets.length -1 ; i++){
+      const start = rotationTargets[i];
+      const end = rotationTargets[i+1];
+      if (progress>=start.progress && progress<=end.progress){
+        const lerpFactor = (progress-start.progress) / (end.progress-start.progress)
+
+        const startQuaternion = new Quaternion.setFromEuler(start.rotation);
+        const endQuaternion = new Quaternion.setFromEuler(end.rotation);
+
+        const lerpingQuaternion = new Quaternion() 
+      }
+    }
+  }
+
     useFrame(()=>{
       if(camera){
         const newProgress = MathUtils.lerp(scrollProgress,targetScrollProgress.current,lerpFactor)
         setScrollProgress(newProgress)
+        
+        console.log("newProgress: ");
+        console.log(newProgress);
+        console.log("rotation: ");
+        console.log(camera.current.rotation);
+        
+
         const point= cameraCurve.getPoint(newProgress)
         camera.current.position.copy(point)
       }
