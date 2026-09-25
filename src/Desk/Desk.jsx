@@ -33,16 +33,16 @@ const Desk = () => {
       targetScrollProgress.current += (Math.sign(event.movementY) * scrollSpeed)
     }
     window.addEventListener("wheel",handleWheel)
-    // window.addEventListener("pointerdown",handlePointerDown)
-    // window.addEventListener("pointermove",handlePointerMove)
-    // window.addEventListener("pointerup",handlePointerUp)
+    window.addEventListener("pointerdown",handlePointerDown)
+    window.addEventListener("pointermove",handlePointerMove)
+    window.addEventListener("pointerup",handlePointerUp)
 
     // clean up function
     return ()=>{
       window.removeEventListener("wheel",handleWheel)
-      // window.removeEventListener("pointerdown",handlePointerDown)
-      // window.removeEventListener("pointermove",handlePointerMove)
-      // window.removeEventListener("pointerup",handlePointerUp)
+      window.removeEventListener("pointerdown",handlePointerDown)
+      window.removeEventListener("pointermove",handlePointerMove)
+      window.removeEventListener("pointerup",handlePointerUp)
     }
   },[])
   return (

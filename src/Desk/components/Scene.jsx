@@ -2,7 +2,7 @@ import { Environment } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { Suspense } from "react";
 import Room from "./Room.jsx"
-import {CatmullRomCurve3, Euler, log, MathUtils, Quaternion, Vector3} from "three"
+import {CatmullRomCurve3, Euler, MathUtils, Quaternion, Vector3} from "three"
 import DebugCurve from "./DebugCurve.jsx";
 
 const Scene = ({
@@ -48,16 +48,20 @@ const Scene = ({
   ]
 
   const getLerpedRotation = (progress) =>{
-    for (let i=0; i<rotationTargets.length -1 ; i++){
+    for (let i=0; i<rotationTargets.length-1 ; i++){
       const start = rotationTargets[i];
       const end = rotationTargets[i+1];
       if (progress>=start.progress && progress<=end.progress){
         const lerpFactor = (progress-start.progress) / (end.progress-start.progress)
 
-        const startQuaternion = new Quaternion.setFromEuler(start.rotation);
-        const endQuaternion = new Quaternion.setFromEuler(end.rotation);
+        const startQuaternion = new Quaternion().setFromEuler(start.rotation);
+        const endQuaternion = new Quaternion().setFromEuler(end.rotation);
 
-        const lerpingQuaternion = new Quaternion() 
+        const lerpingQuaternion = new Quaternion();
+        lerpingQuaternion.slerpQuaternions(startQuaternion,endQuaternion,lerpFactor) 
+
+        const lerpedRotation = new Euler().setFromQuaternion(lerpingQuaternion)
+        return lerpedRotation
       }
     }
   }
@@ -67,14 +71,16 @@ const Scene = ({
         const newProgress = MathUtils.lerp(scrollProgress,targetScrollProgress.current,lerpFactor)
         setScrollProgress(newProgress)
         
-        console.log("newProgress: ");
-        console.log(newProgress);
-        console.log("rotation: ");
+        // console.log("newProgress: ");
+        // console.log(newProgress);
+        // console.log("rotation: ");
         console.log(camera.current.rotation);
         
 
         const point= cameraCurve.getPoint(newProgress)
         camera.current.position.copy(point)
+        const targetRotation = getLerpedRotation(newProgress)
+        camera.current.rotation.copy(targetRotation) 
       }
       
   })
