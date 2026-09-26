@@ -1,8 +1,10 @@
 import React, {useEffect, useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-
- import Scene from './components/Scene.jsx'
 import { CameraControls, Environment, OrbitControls, PerspectiveCamera } from '@react-three/drei'
+import {Vector3} from "three"
+
+
+import Scene from './components/Scene.jsx'
 
 
 const Desk = () => {
@@ -14,6 +16,7 @@ const Desk = () => {
   const scrollSpeed = 0.004
   const lerpFactor = 0.1;
   const isSwiping = useRef(false)
+  const mouseOffset = useRef(new Vector3())
 
   useEffect(()=>{
     const handleWheel = (event)=>{
@@ -32,10 +35,26 @@ const Desk = () => {
       }
       targetScrollProgress.current += (Math.sign(event.movementY) * scrollSpeed)
     }
+
+    // Camera slightly moving in the direction of the mouse pointer
+    const handelMouseMove = (event)=>{
+      // since mouse X,Y at (0,0) start from top left corner this is to normalize it to the center of the screen
+      const mouseX = (event.clientX / window.innerWidth) *2  -1;
+      const mouseY = (event.clientY / window.innerHeight) *2  -1;
+
+      const sensitivityX = 0.25
+      const sensitivityY = 0.25 
+      mouseOffset.current.x = mouseX * sensitivityX
+      mouseOffset.current.y = mouseY * sensitivityY
+    }
+
+    // To add a mobile feature in the future maybe gyroscope or finger movements
+
     window.addEventListener("wheel",handleWheel)
     window.addEventListener("pointerdown",handlePointerDown)
     window.addEventListener("pointermove",handlePointerMove)
     window.addEventListener("pointerup",handlePointerUp)
+    window.addEventListener("mousemove",handelMouseMove)
 
     // clean up function
     return ()=>{
@@ -43,6 +62,7 @@ const Desk = () => {
       window.removeEventListener("pointerdown",handlePointerDown)
       window.removeEventListener("pointermove",handlePointerMove)
       window.removeEventListener("pointerup",handlePointerUp)
+      window.removeEventListener("mousemove",handelMouseMove)
     }
   },[])
   return (
@@ -64,7 +84,7 @@ const Desk = () => {
             setScrollProgress={setScrollProgress}
             targetScrollProgress={targetScrollProgress}
             lerpFactor={lerpFactor}
-          
+            mouseOffset={mouseOffset}
           />
 
         </Canvas>

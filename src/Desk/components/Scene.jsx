@@ -11,7 +11,8 @@ const Scene = ({
     scrollProgress,
     setScrollProgress,
     targetScrollProgress,
-    lerpFactor
+    lerpFactor,
+    mouseOffset
   })=>{
 
   const cameraCurve = new CatmullRomCurve3([
@@ -64,6 +65,8 @@ const Scene = ({
         return lerpedRotation
       }
     }
+    // To get back in the loop
+    return rotationTargets[rotationTargets.length-1]
   }
 
     useFrame(()=>{
@@ -74,11 +77,17 @@ const Scene = ({
         // console.log("newProgress: ");
         // console.log(newProgress);
         // console.log("rotation: ");
-        console.log(camera.current.rotation);
+        // console.log(camera.current.rotation);
         
 
-        const point= cameraCurve.getPoint(newProgress)
-        camera.current.position.copy(point)
+        const basePoint= cameraCurve.getPoint(newProgress)
+        const finalPosition = new Vector3(basePoint.x +mouseOffset.current.x,basePoint.y +mouseOffset.current.y,basePoint.z)
+        
+        finalPosition.x = MathUtils.lerp(basePoint.x,finalPosition.x,0.1)
+        finalPosition.y = MathUtils.lerp(basePoint.y,finalPosition.y,0.1)
+        finalPosition.z = MathUtils.lerp(basePoint.z,finalPosition.z,0.1)
+        
+        camera.current.position.copy(finalPosition)
         const targetRotation = getLerpedRotation(newProgress)
         camera.current.rotation.copy(targetRotation) 
       }
@@ -103,7 +112,7 @@ const Scene = ({
         <ambientLight intensity={2} />
         {/* Useful for loading screen feature */}
         <Suspense fallback={null}>
-            <Room />
+            <Room progess={scrollProgress}/>
         </Suspense>
 
     </>
