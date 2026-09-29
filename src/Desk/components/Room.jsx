@@ -4,22 +4,42 @@ Command: npx gltfjsx@6.5.3 room.glb --transform -d
 Files: room.glb [4.84MB] > C:\Users\Kayan Irani\OneDrive\Desktop\Just Coding\MyPortfolioWebsite\mainCode\models\room-transformed.glb [576.36KB] (88%)
 */
 
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
 
 
 import { convertMaterialsToMeshBasicMaterial } from '../../utils/convertMaterial'
-export default function Model({progess=0,props}) {
+import { useFrame } from '@react-three/fiber'
+export default function Model({progress=0,...props}) {
   const { nodes, materials } = useGLTF('/models/room-transformed.glb')
   // convertMaterialsToMeshBasicMaterial(materials)
   // console.log(nodes)
   // console.log(materials);
-  const screenRef= useRef()
-  if (progess>0){
-    // closing point is 270deg and opening is at 180deg 
-    screenRef.current.rotation.x = 3*Math.PI/2 - Math.PI/4 
+
+  let lerpFactor = 0
+  // const lerpAngle  = 0
+  const laptopScreenConfigs = {
+    openingProgress: 0.40,
+    closingProgress: 0.95,
+    initalAngle: 3*Math.PI/2,
+    finalAngle: Math.PI - Math.PI/10
   }
-  return (
+  const screenRef= useRef()
+  useEffect(()=>{
+    
+    if (progress>=laptopScreenConfigs.openingProgress && progress<=laptopScreenConfigs.closingProgress){
+      lerpFactor = (progress-laptopScreenConfigs.openingProgress) / (laptopScreenConfigs.closingProgress-laptopScreenConfigs.openingProgress)
+      // lerpAngle += lerpFactor
+      screenRef.current.rotation.x = laptopScreenConfigs.initalAngle + ((laptopScreenConfigs.finalAngle -laptopScreenConfigs.initalAngle) * lerpFactor)
+    }
+    else if (progress>laptopScreenConfigs.closingProgress){
+      screenRef.current.rotation.x = laptopScreenConfigs.finalAngle
+    }
+    else{
+      screenRef.current.rotation.x = laptopScreenConfigs.initalAngle
+    }
+  },[progress])
+  return ( 
     <group {...props} dispose={null}>
       <mesh geometry={nodes.Desk.geometry} material={materials['Material.001']} />
       <mesh geometry={nodes.Mousepad.geometry} material={materials.MousepadMaterial} position={[-28.798, 0, 6.6]} scale={[5.47, 5.856, 5.876]} />
@@ -28,7 +48,7 @@ export default function Model({progess=0,props}) {
       <mesh geometry={nodes.PhoneScreen.geometry} material={materials.PaletteMaterial002} />
       <mesh geometry={nodes.PhoneCamera.geometry} material={materials.Material} />
       <mesh geometry={nodes.USBPortInner.geometry} material={materials.PaletteMaterial003} position={[0, 0, -0.035]} />
-      <mesh geometry={nodes.Frame_ComputerFrame_0.geometry} material={materials.ComputerFrame} position={[0, 0.976, 0]} rotation={[-Math.PI / 2, 0, 0]} scale={100} />
+      <mesh geometry={nodes.Frame_ComputerFrame_0.geometry} material={materials.ComputerFrame} position={[0, 0.976, 0]} rotation={[3*Math.PI / 2, 0, 0]} scale={100} />
       <mesh geometry={nodes.ComputerScreen.geometry} material={materials.ComputerScreen} ref={screenRef} position={[0, 0.65, -10.282]} rotation={[-Math.PI, 0, -Math.PI]} scale={[100, 113.4, 88.235]} />
     </group>
   )

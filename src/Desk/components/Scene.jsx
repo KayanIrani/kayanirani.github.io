@@ -112,7 +112,7 @@ const Scene = ({
         <ambientLight intensity={2} />
         {/* Useful for loading screen feature */}
         <Suspense fallback={null}>
-            <Room progess={scrollProgress}/>
+            <Room progress={scrollProgress}/>
         </Suspense>
 
     </>
