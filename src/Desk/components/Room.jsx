@@ -4,12 +4,16 @@ Command: npx gltfjsx@6.5.3 room.glb --transform -d
 Files: room.glb [4.84MB] > C:\Users\Kayan Irani\OneDrive\Desktop\Just Coding\MyPortfolioWebsite\mainCode\models\room-transformed.glb [576.36KB] (88%)
 */
 
-import React, { useEffect, useRef } from 'react'
-import { useGLTF } from '@react-three/drei'
+import React, { useEffect, useRef, useState } from 'react'
+import { useGLTF,Html } from '@react-three/drei'
 
 
 import { convertMaterialsToMeshBasicMaterial } from '../../utils/convertMaterial'
 import { useFrame } from '@react-three/fiber'
+
+import './Room.css'
+import LaptopScreenView from '../../components/LaptopScreenView'
+
 export default function Model({progress=0,...props}) {
   const { nodes, materials } = useGLTF('/models/room-transformed.glb')
   // convertMaterialsToMeshBasicMaterial(materials)
@@ -17,26 +21,42 @@ export default function Model({progress=0,...props}) {
   // console.log(materials);
 
   let lerpFactor = 0
-  // const lerpAngle  = 0
   const laptopScreenConfigs = {
     openingProgress: 0.40,
     closingProgress: 0.95,
     initalAngle: 3*Math.PI/2,
     finalAngle: Math.PI - Math.PI/10
   }
-  const screenRef= useRef()
+
+  const laptopScreenRef= useRef()
+  const htmlLaptopScreen= useRef()
+  const [isHidden, setHidden] = useState(false)
+
+
   useEffect(()=>{
-    
-    if (progress>=laptopScreenConfigs.openingProgress && progress<=laptopScreenConfigs.closingProgress){
-      lerpFactor = (progress-laptopScreenConfigs.openingProgress) / (laptopScreenConfigs.closingProgress-laptopScreenConfigs.openingProgress)
-      // lerpAngle += lerpFactor
-      screenRef.current.rotation.x = laptopScreenConfigs.initalAngle + ((laptopScreenConfigs.finalAngle -laptopScreenConfigs.initalAngle) * lerpFactor)
-    }
-    else if (progress>laptopScreenConfigs.closingProgress){
-      screenRef.current.rotation.x = laptopScreenConfigs.finalAngle
+    if (progress>=0.9){
+      htmlLaptopScreen.current.rotation.x = laptopScreenConfigs.finalAngle 
+      htmlLaptopScreen.current.visible = true
+      setHidden(false)
     }
     else{
-      screenRef.current.rotation.x = laptopScreenConfigs.initalAngle
+      htmlLaptopScreen.current.visible = false
+      // htmlLaptopScreen.current.rotation.x = laptopScreenConfigs.initalAngle
+      // console.log(htmlLaptopScreen)
+      setHidden(true)
+
+    }
+    if (progress>=laptopScreenConfigs.openingProgress && progress<=laptopScreenConfigs.closingProgress){
+      lerpFactor = (progress-laptopScreenConfigs.openingProgress) / (laptopScreenConfigs.closingProgress-laptopScreenConfigs.openingProgress)
+      laptopScreenRef.current.rotation.x = laptopScreenConfigs.initalAngle + ((laptopScreenConfigs.finalAngle -laptopScreenConfigs.initalAngle) * lerpFactor)
+
+
+    }
+    else if (progress>laptopScreenConfigs.closingProgress){
+      laptopScreenRef.current.rotation.x = laptopScreenConfigs.finalAngle
+    }
+    else{
+      laptopScreenRef.current.rotation.x = laptopScreenConfigs.initalAngle
     }
   },[progress])
   return ( 
@@ -49,7 +69,26 @@ export default function Model({progress=0,...props}) {
       <mesh geometry={nodes.PhoneCamera.geometry} material={materials.Material} />
       <mesh geometry={nodes.USBPortInner.geometry} material={materials.PaletteMaterial003} position={[0, 0, -0.035]} />
       <mesh geometry={nodes.Frame_ComputerFrame_0.geometry} material={materials.ComputerFrame} position={[0, 0.976, 0]} rotation={[3*Math.PI / 2, 0, 0]} scale={100} />
-      <mesh geometry={nodes.ComputerScreen.geometry} material={materials.ComputerScreen} ref={screenRef} position={[0, 0.65, -10.282]} rotation={[-Math.PI, 0, -Math.PI]} scale={[100, 113.4, 88.235]} />
+      <mesh geometry={nodes.ComputerScreen.geometry} material={materials.ComputerScreen} ref={laptopScreenRef} position={[0, 0.65, -10.282]} rotation={[-Math.PI, 0, -Math.PI]} scale={[100, 113.4, 88.235]} /> 
+      <mesh geometry={nodes.ComputerScreen.geometry}  ref={htmlLaptopScreen} position={[0, 0.65, -10.282]} 
+      scale={[100, 113.4, 88.235]} 
+      >
+        <Html rotation-x={laptopScreenConfigs.finalAngle} className='content'
+          transform occlude
+          onOcclude={setHidden}
+          style={{
+            // add transition: here eg: transition: 'all 0.5s',
+            opacity: isHidden ? 0:1,
+            pointerEvents: isHidden ? 'none': 'auto',
+            visibility: isHidden ? 'hidden':'visible'
+
+          }}
+        >
+          <div className='wrapper' onPointerDown={(e) => e.stopPropagation()}>
+            <LaptopScreenView />
+          </div>
+        </Html>
+      </mesh>
     </group>
   )
 }

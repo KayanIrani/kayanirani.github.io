@@ -76,7 +76,7 @@ const Desk = () => {
             fov={70}
             position={[-294.81,39.52,14.47]}  
           />
-          <OrbitControls ref={controls} camera={camera.current}/>
+          {/* <OrbitControls ref={controls} camera={camera.current}/> */}
           <Scene 
             controls={controls} 
             camera={camera}

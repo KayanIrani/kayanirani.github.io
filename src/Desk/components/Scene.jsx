@@ -32,7 +32,9 @@ const Scene = ({
     new Vector3(1.47,50.76,52.01),
     new Vector3(0.13,32.95,58.51),
     new Vector3(1.13,22.23,44.20),
-  ]);
+  ],
+  true
+);
 
   const rotationTargets = [
     {progress:0,rotation: new Euler(-1.22,-1.43,-1.22)},
@@ -44,8 +46,13 @@ const Scene = ({
     {progress:0.72,rotation: new Euler(-0.95,-0.01,-0.01)},
     {progress:0.78,rotation: new Euler(-0.92,0.01,0.01)},
     {progress:0.86,rotation: new Euler(-0.71,-0.001,-0.001)},
-    {progress:0.97,rotation: new Euler(-0.41,-0.01,-0.008)},
-    {progress:0.99,rotation: new Euler(-0.40,-0.008,-0.003)},
+
+    // original onees
+    // {progress:0.97,rotation: new Euler(-0.41,-0.01,-0.008)},
+    // {progress:0.99,rotation: new Euler(-0.40,-0.008,-0.003)},
+    {progress:0.97,rotation: new Euler(-0.40,-0.008,-0.003)},
+    {progress:0.98,rotation: new Euler(-1.22,-1.43,-1.22)},
+    {progress:1,rotation: new Euler(-1.22,-1.43,-1.22)},
   ]
 
   const getLerpedRotation = (progress) =>{
@@ -71,7 +78,17 @@ const Scene = ({
 
     useFrame(()=>{
       if(camera){
-        const newProgress = MathUtils.lerp(scrollProgress,targetScrollProgress.current,lerpFactor)
+        let newProgress = MathUtils.lerp(scrollProgress,targetScrollProgress.current,lerpFactor)
+        if (newProgress>1){
+          newProgress = 0
+          targetScrollProgress.current = 0
+        }
+        else if(newProgress<0){
+          newProgress = 1
+          targetScrollProgress.current = 1
+        }
+
+
         setScrollProgress(newProgress)
         
         // console.log("newProgress: ");
@@ -91,6 +108,7 @@ const Scene = ({
         const targetRotation = getLerpedRotation(newProgress)
         camera.current.rotation.copy(targetRotation) 
       }
+
       
   })
   return (
