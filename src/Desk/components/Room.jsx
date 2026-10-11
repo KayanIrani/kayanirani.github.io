@@ -62,20 +62,21 @@ export default function Model({progress=0,...props}) {
   return ( 
     <group {...props} dispose={null}>
       <mesh geometry={nodes.Desk.geometry} material={materials['Material.001']} />
-      <mesh geometry={nodes.Mousepad.geometry} material={materials.MousepadMaterial} position={[-28.798, 0, 6.6]} scale={[5.47, 5.856, 5.876]} />
+      <mesh geometry={nodes.Mousepad.geometry} material={materials.MousepadMaterial} position={[-28.798, 0, 6.6]}  />
       <mesh geometry={nodes.Mouse.geometry} material={materials.PaletteMaterial001} />
       <mesh geometry={nodes.Phone.geometry} material={materials.PhoneCover} />
       <mesh geometry={nodes.PhoneScreen.geometry} material={materials.PaletteMaterial002} />
       <mesh geometry={nodes.PhoneCamera.geometry} material={materials.Material} />
       <mesh geometry={nodes.USBPortInner.geometry} material={materials.PaletteMaterial003} position={[0, 0, -0.035]} />
-      <mesh geometry={nodes.Frame_ComputerFrame_0.geometry} material={materials.ComputerFrame} position={[0, 0.976, 0]} rotation={[3*Math.PI / 2, 0, 0]} scale={100} />
-      <mesh geometry={nodes.ComputerScreen.geometry} material={materials.ComputerScreen} ref={laptopScreenRef} position={[0, 0.65, -10.282]} rotation={[-Math.PI, 0, -Math.PI]} scale={[100, 113.4, 88.235]} /> 
-      <mesh geometry={nodes.ComputerScreen.geometry}  ref={htmlLaptopScreen} position={[0, 0.65, -10.282]} 
-      scale={[100, 113.4, 88.235]} 
-      >
-        <Html rotation-x={laptopScreenConfigs.finalAngle} className='content'
+      <mesh geometry={nodes.Frame_ComputerFrame_0.geometry} material={materials.ComputerFrame} position={[0, 0.976, 0]} rotation={[3*Math.PI / 2, 0, 0]} />
+      <mesh geometry={nodes.ComputerScreen.geometry} material={materials.ComputerScreen} ref={laptopScreenRef} position={[0, 0.65, -10.282]} rotation={[-Math.PI, 0, -Math.PI]} /> 
+      <mesh geometry={nodes.ComputerScreen.geometry}  ref={htmlLaptopScreen} position={[0, 0.65, -10.282]} rotation={[-Math.PI, 0, -Math.PI]}>
+        <Html className='content'
           transform occlude
           onOcclude={setHidden}
+          // rotation-x={laptopScreenConfigs.finalAngle}
+          position={[0,12.3,0]}
+          rotation={[-Math.PI, 0, -Math.PI]}
           style={{
             // add transition: here eg: transition: 'all 0.5s',
             opacity: isHidden ? 0:1,
