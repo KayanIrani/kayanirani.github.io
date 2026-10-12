@@ -13,6 +13,7 @@ import { useFrame } from '@react-three/fiber'
 
 import './Room.css'
 import LaptopScreenView from '../../components/LaptopScreenView'
+import HtmlOverlay from './HtmlOverlay'
 
 export default function Model({progress=0,...props}) {
   const { nodes, materials } = useGLTF('/models/room-transformed.glb')
@@ -30,11 +31,16 @@ export default function Model({progress=0,...props}) {
 
   const laptopScreenRef= useRef()
   const htmlLaptopScreen= useRef()
+  const laptopScreenPosition = [0,12.3,0]
+  const laptopScreenRotation = [-Math.PI, 0, -Math.PI]
+
+
+
   const [isHidden, setHidden] = useState(false)
 
 
   useEffect(()=>{
-    if (progress>=0.9){
+    if (progress>=0.86){
       htmlLaptopScreen.current.rotation.x = laptopScreenConfigs.finalAngle 
       htmlLaptopScreen.current.visible = true
       setHidden(false)
@@ -71,24 +77,9 @@ export default function Model({progress=0,...props}) {
       <mesh geometry={nodes.Frame_ComputerFrame_0.geometry} material={materials.ComputerFrame} position={[0, 0.976, 0]} rotation={[3*Math.PI / 2, 0, 0]} />
       <mesh geometry={nodes.ComputerScreen.geometry} material={materials.ComputerScreen} ref={laptopScreenRef} position={[0, 0.65, -10.282]} rotation={[-Math.PI, 0, -Math.PI]} /> 
       <mesh geometry={nodes.ComputerScreen.geometry}  ref={htmlLaptopScreen} position={[0, 0.65, -10.282]} rotation={[-Math.PI, 0, -Math.PI]}>
-        <Html className='content'
-          transform occlude
-          onOcclude={setHidden}
-          // rotation-x={laptopScreenConfigs.finalAngle}
-          position={[0,12.3,0]}
-          rotation={[-Math.PI, 0, -Math.PI]}
-          style={{
-            // add transition: here eg: transition: 'all 0.5s',
-            opacity: isHidden ? 0:1,
-            pointerEvents: isHidden ? 'none': 'auto',
-            visibility: isHidden ? 'hidden':'visible'
-
-          }}
-        >
-          <div className='wrapper' onPointerDown={(e) => e.stopPropagation()}>
-            <LaptopScreenView />
-          </div>
-        </Html>
+        <HtmlOverlay 
+          isHidden={isHidden} setHidden={setHidden} position={laptopScreenPosition} rotation={laptopScreenRotation}
+        />
       </mesh>
     </group>
   )

@@ -10,6 +10,7 @@ import Scene from './components/Scene.jsx'
 const Desk = () => {
   const controls = useRef();
   const camera = useRef();
+  const initialCameraPostion = [-294.81,39.52,14.47]
 
   const [scrollProgress,setScrollProgress] = useState(0);
   const targetScrollProgress = useRef(0)
@@ -42,8 +43,8 @@ const Desk = () => {
       const mouseX = (event.clientX / window.innerWidth) *2  -1;
       const mouseY = (event.clientY / window.innerHeight) *2  -1;
 
-      const sensitivityX = 0.25
-      const sensitivityY = 0.25 
+      const sensitivityX = 2.5
+      const sensitivityY = 1.5 
       mouseOffset.current.x = mouseX * sensitivityX
       mouseOffset.current.y = mouseY * sensitivityY
     }
@@ -74,7 +75,7 @@ const Desk = () => {
             ref={camera}
             makeDefault
             fov={70}
-            position={[-294.81,39.52,14.47]}  
+            position={initialCameraPostion}  
           />
           {/* <OrbitControls ref={controls} camera={camera.current}/> */}
           <Scene 

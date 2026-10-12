@@ -1,0 +1,11 @@
+.innerScreen{
+    height: 100%;
+    width: 100%;
+    flex: 1;
+    background-color: rgb(128, 50, 50);
+}
+
+.profilePhoto{
+    /* padding-top: 80px; */
+    transform: scale(1.5);
+}
