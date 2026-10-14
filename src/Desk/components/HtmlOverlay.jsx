@@ -21,7 +21,7 @@ const HtmlOverlay = ({isHidden,setHidden,position,rotation}) => {
           }}
         >
           <div className='wrapper' onPointerDown={(e) => e.stopPropagation()}>
-            <Laptop ScreenView />
+            <LaptopScreenView />
           </div>
     </Html>
   )
