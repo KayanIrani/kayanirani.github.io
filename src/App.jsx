@@ -1,14 +1,15 @@
 import { useState } from 'react'
-import Desk from './Desk/Desk.jsx'
+import KayanVerse from './kayanverse/KayanVerse.jsx'
 import "./App.css"
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-      <Desk/>
+      <KayanVerse/>
     </>
   )
 }
 
 export default App
+1

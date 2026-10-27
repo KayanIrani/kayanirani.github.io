@@ -4,10 +4,10 @@ import { CameraControls, Environment, OrbitControls, PerspectiveCamera } from '@
 import {Vector3} from "three"
 
 
-import Scene from './components/Scene.jsx'
+import Scene from './scene/Scene.jsx'
 
 
-const Desk = () => {
+const KayanVerse = () => {
   const controls = useRef();
   const camera = useRef();
   const initialCameraPostion = [-294.81,39.52,14.47]
@@ -93,4 +93,4 @@ const Desk = () => {
   )
 }
 
-export default Desk
+export default KayanVerse

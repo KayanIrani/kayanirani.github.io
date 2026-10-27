@@ -1,9 +1,9 @@
 import { Environment } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { Suspense } from "react";
-import Room from "./Room.jsx"
+import Room from "../components/Room.jsx"
 import {CatmullRomCurve3, Euler, MathUtils, Quaternion, Vector3} from "three"
-import DebugCurve from "./DebugCurve.jsx";
+import DebugCurve from "../utils/DebugCurve.jsx";
 
 const Scene = ({
     controls,

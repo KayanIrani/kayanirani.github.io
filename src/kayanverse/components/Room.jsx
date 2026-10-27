@@ -12,18 +12,17 @@ Files: roomWindows.glb [4.82MB] > C:\Users\Kayan Irani\OneDrive\Desktop\Just Cod
 
 
 import React, { useEffect, useRef, useState } from 'react'
-import { useGLTF,Html, MeshTransmissionMaterial } from '@react-three/drei'
-
+import { useGLTF } from '@react-three/drei'
+import {Color} from "three"
 
 import { convertMaterialsToMeshBasicMaterial } from '../../utils/convertMaterial'
 import { useFrame } from '@react-three/fiber'
 
 import './Room.css'
 import LaptopScreenView from '../../components/LaptopScreenView'
-import HtmlOverlay from './HtmlOverlay'
+import HtmlOverlay from '../elements/HtmlOverlay'
+import Glass from '../elements/Glass'
 
-// New Maybe Delete
-import { useControls } from 'leva'
 
 export default function Model({progress=0,...props}) {
 
@@ -44,35 +43,11 @@ export default function Model({progress=0,...props}) {
 
   const laptopScreenRef= useRef()
   const htmlLaptopScreen= useRef()
-  const laptopScreenPosition = [0,12,-12]
+  const laptopScreenPosition = [0,12,0]
   const laptopScreenRotation = [0, 0, 0]
 
 
   const [isHidden, setHidden] = useState(false)
-
-
-  // DeleteBelow Later
-  //   const config = useControls({
-  //   meshPhysicalMaterial: false,
-  //   transmissionSampler: false,
-  //   backside: false,
-  //   samples: { value: 10, min: 1, max: 32, step: 1 },
-  //   resolution: { value: 2048, min: 256, max: 2048, step: 256 },
-  //   transmission: { value: 1, min: 0, max: 1 },
-  //   roughness: { value: 0.0, min: 0, max: 1, step: 0.01 },
-  //   thickness: { value: 3.5, min: 0, max: 10, step: 0.01 },
-  //   ior: { value: 1.5, min: 1, max: 5, step: 0.01 },
-  //   chromaticAberration: { value: 0.06, min: 0, max: 1 },
-  //   anisotropy: { value: 0.1, min: 0, max: 1, step: 0.01 },
-  //   distortion: { value: 0.0, min: 0, max: 1, step: 0.01 },
-  //   distortionScale: { value: 0.3, min: 0.01, max: 1, step: 0.01 },
-  //   temporalDistortion: { value: 0.5, min: 0, max: 1, step: 0.01 },
-  //   clearcoat: { value: 1, min: 0, max: 1 },
-  //   attenuationDistance: { value: 0.5, min: 0, max: 10, step: 0.01 },
-  //   attenuationColor: '#ffffff',
-  //   color: '#c9ffa1',
-  //   bg: '#839681'
-  // })
 
 
   useEffect(()=>{
@@ -111,7 +86,12 @@ export default function Model({progress=0,...props}) {
       <mesh name="USBPortInner" geometry={nodes.USBPortInner.geometry} material={materials.Metal} />
       <mesh name="Room" geometry={nodes.Room.geometry} material={materials.Walls} />
       <mesh name="RoomFloor" geometry={nodes.RoomFloor.geometry} material={materials.Floor} />
-      <mesh name="GlassPane" geometry={nodes.GlassPane.geometry} material={materials.Glass} />
+      <mesh name="GlassPane" geometry={nodes.GlassPane.geometry} 
+      // material={materials.Glass}
+      >
+        {/* <MeshTransmissionMaterial background={new Color(config.bg)} {...config} />  */}
+        <Glass />
+      </mesh>
       <mesh name="Frame_ComputerFrame_0" geometry={nodes.Frame_ComputerFrame_0.geometry} material={materials.ComputerFrame} />
       <mesh name="Screen_ComputerScreen_0" geometry={nodes.Screen_ComputerScreen_0.geometry} material={materials.ComputerScreen} ref={laptopScreenRef} position={[0, 0.429, -10.092]}  />
       <mesh name="ComputerScreenHTML" geometry={nodes.Screen_ComputerScreen_0.geometry} ref={htmlLaptopScreen} position={[0, 0.429, -10.092]} >
