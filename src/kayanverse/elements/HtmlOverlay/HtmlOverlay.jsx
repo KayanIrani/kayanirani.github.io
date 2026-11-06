@@ -1,6 +1,7 @@
 import React from 'react'
 import { Html } from '@react-three/drei'
-import LaptopScreenView from '../../components/LaptopScreenView'
+import LaptopScreenView from '../../../components/LaptopScreenView'
+import './HtmlOverlay.css'
 
 
 // can add prop as mobileStyle and laptop style for overlayhtml in it's after-effects

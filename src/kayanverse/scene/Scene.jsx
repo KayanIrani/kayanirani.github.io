@@ -115,17 +115,17 @@ const Scene = ({
     <>
         <DebugCurve curve={cameraCurve}/>
         <Environment 
-        background={true} // can be true, false or "only" (which only sets the background) (default: false)
-        // for cubemap 2 -> pi/2 and for cubemap 1 -> pi
-        backgroundRotation={[0, Math.PI/2 , 0]} // optional rotation (default: 0, only works with three 0.163 and up)
-        files={[
-            '/cubemaps/cubemap2/px.webp',
-            '/cubemaps/cubemap2/nx.webp',
-            '/cubemaps/cubemap2/py.webp',
-            '/cubemaps/cubemap2/ny.webp',
-            '/cubemaps/cubemap2/pz.webp',
-            '/cubemaps/cubemap2/nz.webp'
-        ]
+          background={true} // can be true, false or "only" (which only sets the background) (default: false)
+        // for cubemap 2 -> 3*Math.PI/2-Math.PI/5  and for cubemap 1 -> pi
+          backgroundRotation={[0, 3*Math.PI/2-Math.PI/5 , 0]} // optional rotation (default: 0, only works with three 0.163 and up)
+          files={[
+              '/cubemaps/cubemap2/px.webp',
+              '/cubemaps/cubemap2/nx.webp',
+              '/cubemaps/cubemap2/py.webp',
+              '/cubemaps/cubemap2/ny.webp',
+              '/cubemaps/cubemap2/pz.webp',
+              '/cubemaps/cubemap2/nz.webp'
+          ]
         }/>
         <ambientLight intensity={2} />
         {/* Useful for loading screen feature */}
