@@ -5,6 +5,7 @@ import {Vector3} from "three"
 
 
 import Scene from './scene/Scene.jsx'
+import { UI } from './elements/Diary/DiaryUI.jsx'
 
 
 const KayanVerse = () => {
@@ -68,6 +69,7 @@ const KayanVerse = () => {
   },[])
   return (
     <>
+        <UI/>
         <Canvas>
           {/* <CameraControls ref={controls}/> */}
           

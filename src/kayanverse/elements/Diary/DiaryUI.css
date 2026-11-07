@@ -1,0 +1,61 @@
+.diary-ui {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  pointer-events: none;
+  user-select: none;
+}
+
+.diary-logo-link {
+  margin-top: 2.5rem;
+  margin-left: 2.5rem;
+  pointer-events: auto;
+}
+
+.diary-logo {
+  width: 5rem;
+}
+
+.diary-nav {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  overflow: auto;
+  pointer-events: auto;
+}
+
+.diary-nav-inner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: 100%;
+  padding: 2.5rem;
+  overflow: auto;
+}
+
+.diary-btn {
+  flex-shrink: 0;
+  padding: 0.75rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  font-family: inherit;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  text-transform: uppercase;
+  color: white;
+  background: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: all 300ms;
+}
+
+.diary-btn:hover {
+  border-color: white;
+}
+
+.diary-btn.active {
+  color: black;
+  background: rgba(255, 255, 255, 0.9);
+}

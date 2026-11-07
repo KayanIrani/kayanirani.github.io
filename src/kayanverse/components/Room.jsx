@@ -8,6 +8,7 @@ import { useFrame } from '@react-three/fiber'
 import LaptopScreenView from '../../components/LaptopScreenView'
 import HtmlOverlay from '../elements/HtmlOverlay/HtmlOverlay'
 import Glass from '../elements/Glass'
+import { Book } from '../elements/Diary/Book'
 
 
 export default function Model({progress=0,...props}) {
@@ -91,7 +92,9 @@ export default function Model({progress=0,...props}) {
             isHidden={isHidden} setHidden={setHidden} position={laptopScreenPosition} rotation={laptopScreenRotation}
           />
         </mesh>
-       <group name="DiaryAnchor" position={[32.596, 0.2, 0]} />
+       <group name="DiaryAnchor" position={[30.596, 1.2, -2]} rotation-y={-Math.PI/5} >
+          <Book scale={8}/>
+       </group>
       </group>
     </group>
   )
