@@ -42,7 +42,7 @@ pages.push({
   back: "book-back",
 });
 
-console.log(pages)
+// console.log(pages)
 
 export const UI = () => {
   const page = useBookStore((state) => state.page);
@@ -80,6 +80,7 @@ export const UI = () => {
             </button>
             </div>
         </div>
+        
         </main>
     </>
   );
